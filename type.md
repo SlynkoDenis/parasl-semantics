@@ -27,7 +27,7 @@ title: Система типов, синтаксис внутренний и в�
 module TYPE-SYNTAX
   syntax InnerType
   syntax OuterType
-  syntax InnerType ::= #toInnerType(OuterType) [function, functional]
+  syntax InnerType ::= #toInnerType(OuterType) [function, total]
 endmodule
 ```
 
@@ -242,10 +242,10 @@ module TYPE
   rule #toInnerType(OT:OuterType [N]) => array(#toInnerType(OT), N)
   rule #toInnerType(vector<OT, N>) => vector(#toInnerType(OT), N)
 
-  syntax InnerStructField ::= #toInnerStructField(OuterTypeStructField) [function, functional]
+  syntax InnerStructField ::= #toInnerStructField(OuterTypeStructField) [function, total]
   rule #toInnerStructField(N : T) => field(N, #toInnerType(T))
 
-  syntax InnerStructFields ::= #toInnerStructFields(OuterTypeStructFields) [function, functional]
+  syntax InnerStructFields ::= #toInnerStructFields(OuterTypeStructFields) [function, total]
 
   rule #toInnerStructFields(OF:OuterTypeStructField, Rest:OuterTypeStructFields) =>
        #toInnerStructField(OF), #toInnerStructFields(Rest)
@@ -253,10 +253,10 @@ module TYPE
 
   rule #toInnerType({Fields}) => struct(#toInnerStructFields(Fields))
 
-  syntax InnerParam ::= #toInnerParam(OuterTypeFuncParam) [function, functional]
+  syntax InnerParam ::= #toInnerParam(OuterTypeFuncParam) [function, total]
   rule #toInnerParam(N : T) => param(N, #toInnerType(T))
 
-  syntax InnerParams ::= #toInnerParams(OuterTypeFuncParams) [function, functional]
+  syntax InnerParams ::= #toInnerParams(OuterTypeFuncParams) [function, total]
   rule #toInnerParams(P, Rest) => #toInnerParam(P), #toInnerParams(Rest)
   rule #toInnerParams(.OuterTypeFuncParams) => .InnerParams
 
