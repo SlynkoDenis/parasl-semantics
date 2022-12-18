@@ -1,0 +1,10 @@
+float f = -1;
+f = 1;
+int a = 4;
+float sum = a + f;
+
+if (sum + f >= 3.0) {
+    a = 5;
+} else {
+    sum = 7;
+}
